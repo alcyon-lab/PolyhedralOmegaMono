@@ -1,0 +1,7 @@
+name = "PolyhedralOmegaMono"
+uuid = "28620ff0-279e-42bc-9997-1b2829c1749e"
+authors = ["Alcyon Lab"]
+version = "1.0.0"
+
+[compat]
+julia = "1.2"
