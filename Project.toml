@@ -1,7 +1,15 @@
 name = "PolyhedralOmegaMono"
 uuid = "28620ff0-279e-42bc-9997-1b2829c1749e"
 authors = ["Alcyon Lab"]
-version = "1.0.0"
+version = "0.2.1"
+
+[deps]
+IterTools = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+SmithNormalForm = "ba71f38f-f508-439b-ac77-437f86a20aa1"
+Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
+TermInterface = "8ea1fca8-c5ef-4a55-8b96-4e9afe9c9a3c"
 
 [compat]
 julia = "1.2"
