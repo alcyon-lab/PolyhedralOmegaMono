@@ -14,26 +14,21 @@ function enumerate_fundamental_parallelepiped(cone::Cone{T}) where {T<:Number}
     apex = cone.apex
     p = zeros(T, (ambientDimension,))
     if dimension < ambientDimension
-        vrep_lu = lu(vrep)
-        P, L = vrep_lu.P, vrep_lu.L
-        if size(P) != size(L)
-            @warn "dimension mismatch after LU $(size(P)) != $(size(L)), some points might be missing in the result"
-            return Int[]
-        end
-        A_ = L^(-1) * P^(-1)
-        Ap = A_[end-(d-k)+1:end, :]
+        @info "vrep $(vrep)"
+        @info "dim $(dimension) ambDim $(ambientDimension)"
+        A_ = Matrix{Int}(round.(det(vrep' * vrep) * pinv(vrep)))
+
+        Ap = A_ # [end-(ambientDimension-dimension)+1:end, :]
         b = Ap * apex
-        m, n = size(Ap)
-        multipliers = [
-            lcm(vcat(denominator.(Ap[i, :]), denominator(b[i])))
-            for i in 1:m
-        ]
-        S_ = Diagonal(multipliers)
-        A, b = S_ * Ap, S_ * b
+        A, b = Ap, b
 
-        SNFRes_ = SmithNormalForm.smith(vrep)
-        S_, Uinv_, Vinv_ = SmithNormalForm.diagm(SNFRes_), SNFRes.Sinv, SNFRes.Tinv
-
+        SNFRes_ = SmithNormalForm.smith(A)
+        S_, Uinv_, Vinv_ = SmithNormalForm.diagm(SNFRes_), SNFRes_.Sinv, SNFRes_.Tinv
+        @info "A $(A)"
+        @info "b $(b)"
+        @info "S_ $(S_)"
+        @info "Vinv_ $(Vinv_)"
+        @info "Uinv_ $(Uinv_)"
         m, n = size(A)
         p_ = Uinv_ * b
         q = vcat([p_[i] // S_[i, i] for i in 1:m], zeros(Int, n - m))
